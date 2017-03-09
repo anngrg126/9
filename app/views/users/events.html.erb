@@ -1,0 +1,128 @@
+<div class="container-fluid">
+<a href="/user/<%= @user.id %>">Edit My Profile</a>
+<a href="/logout">Logout</a>
+</div>
+
+<h3>Welcome, <%= @user.firstName %> <%= @user.lastName %></h3>
+
+<p>Here are some of the events at your state:</p>
+
+<div class="container">
+  <table class="table table-bordered" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Host</th>
+        <th>Action/Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @stateevents.each do |event| %>
+      <tr>
+        <td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+        <td><%= event.date %></td>
+        <td><%= event.location %></td>
+        <td><%= User.find(event.user_id).firstName %></td>
+        <td>
+
+
+          <% if event.user_id == session[:user_id] %>
+            <a href="/editEvent/<%= event.id %>">Edit</a>
+
+            <a href="/deleteEvent/<%= event.id %>" data-method='delete'>Delete</a>
+
+          <% elsif @userevents.include?(event) %>
+
+            Joining
+
+              <a href="/cancelEvent/<%= event.id %>">Cancel</a>
+
+            <% else %>
+
+              <a href="/joinEvent/<%= event.id %>">Join</a>
+
+          <% end  %>
+        </td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
+
+
+<p>Here are some of the events in other states:</p>
+
+<div class="container">
+  <table class="table table-bordered" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>State</th>
+        <th>Host</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @nonstateevents.each do |event| %>
+      <tr>
+        <td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+        <td><%= event.date %></td>
+        <td><%= event.location %></td>
+        <td><%= event.state %></td>
+        <td><%= User.find(event.user_id).firstName %></td>
+        <td>
+          <% if event.user_id == session[:user_id] %>
+            <a href="/editEvent/<%= event.id %>">Edit</a>
+
+              <a href="/deleteEvent/<%= event.id %>">Delete</a>
+
+          <% elsif @userevents.include?(event) %>
+
+            Joining
+
+              <a href="/cancelEvent/<%= event.id %>">Cancel</a>
+
+            <% else %>
+
+              <a href="/joinEvent/<%= event.id %>">Join</a>
+
+          <% end  %>
+        </td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
+
+
+
+<h4>Add Event</h4>
+<form class="" action="/createEvent" method="post">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+
+  <label for="name">Name: </label>
+  <input type="text" name="name" value="">
+
+  <label for="date">Date: </label>
+  <input type="date" name="date" value="">
+
+  <label for="location">Location: </label>
+  <input type="text" name="location" value="">
+
+  <label for="state">State: </label>
+  <select class="" name="">
+  <%= states.each do |state| %>
+    <option value="<%=state[:value]%>"><%=state[:abbr]%></option>
+  <% end %>
+</select>
+  <input type="submit" name="" value="Add Event">
+
+</form>

@@ -1,0 +1,44 @@
+User:
+
+rails g model User firstName:string lastName:string email:string location:string state:string password:digest
+
+rails g model Event name:string date:date location:string state:string user:references
+
+rails g model UserEventMatch user:references event:references
+
+rails g model Discussion comment:string user:references event:references
+
+rails g controller Users login
+
+
+
+class User < ActiveRecord::Base
+  has_many :events (so Event model should have a user:references (user foreign key))
+  has_many :userEventMatchs (so UserEventMatch will have a user:references)
+  has_many :discussions
+
+  has_many :events_joined,
+	   :through => :userEventMatchs
+	   :source => :event
+end
+
+class Event < ActiveRecord::Base
+  belongs_to :user
+  has_many :userEventMatches (so UserEventMatch will have a event:references)
+  has_many :discussions
+  has_many :users_joined,
+	   :through => :userEventMatches,
+ 	   :source => :user
+end
+
+
+class UserEventMatch < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :event
+end
+
+
+class Discussion < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :event
+end

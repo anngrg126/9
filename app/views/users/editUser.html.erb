@@ -1,0 +1,31 @@
+<div class="container-fluid">
+<a href="/events">Events Dashboard</a>
+<a href="/logout">Logout</a>
+</div>
+
+<h3>Edit Your Profile</h3>
+
+<form class="container" action="/updateUser" method="post">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+
+  <label for="firstName">First Name: </label>
+  <input class="form-control" type="text" name="firstName" value="">
+
+  <label for="lastName">Last Name: </label>
+  <input class="form-control" type="text" name="lastName" value="">
+
+  <label for="email">Email: </label>
+  <input class="form-control" type="text" name="email" value="">
+
+  <label for="location">Location: </label>
+  <input class="form-control" type="text" name="location" value="">
+
+  <label for="state">State: </label>
+  <select class="form-control" name="">
+  <%= states.each do |state| %>
+    <option value="<%=state[:value]%>"><%=state[:abbr]%></option>
+  <% end %>
+</select>
+
+  <input type="submit" name="" value="Update Records">
+</form>

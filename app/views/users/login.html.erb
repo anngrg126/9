@@ -1,0 +1,85 @@
+<div class="container">
+  <% if flash[:login_errors] %>
+    <div class="alert alert-danger">
+      <%= flash[:login_errors] %>
+    </div>
+  <% end %>
+
+  <% if flash[:register_errors] %>
+    <div class="alert alert-danger">
+      <% flash[:register_errors].each do |errorMessage| %>
+      <%= errorMessage %> <br>
+      <% end %>
+    </div>
+    <% end %>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-lg-6">
+    <form action="/createUser" method="post">
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+
+    <label for="firstName">First Name</label>
+    <input name="firstName" type="text" class="form-control">
+
+    <label for="lastName">Last Name</label>
+    <input name="lastName" type="text" class="form-control">
+
+    <label for="email">Email</label>
+    <input  name="email" type="text" class="form-control">
+
+    <label for="location">Location</label>
+    <input  name="location" type="text" class="form-control">
+
+    <label for="state">State: </label><br>
+    <select class="" name="">
+    <%= states.each do |state| %>
+      <option value="<%=state[:value]%>"><%=state[:abbr]%></option>
+    <% end %>
+  </select>
+
+    <br>
+
+
+    <label for="password">Password</label>
+    <input name="password" type="password" class="form-control">
+
+    <p>*Password should be at least 8 characters</p>
+
+    <label for="confirm_pw">Confirm Password</label>
+    <input id="confirm_pw" name="confirm_pw" type="password" class="form-control">
+
+    <input type="submit" class="btn btn-primary" name="" value="Register">
+    <!-- <button type="submit" name="button">Register</button> -->
+  </form>
+</div>
+
+
+  <!-- <% if flash[:errors] %>
+    <p style="color:red;"><%= flash[:errors] %></p>
+  <% end %> -->
+  <div class="col-lg-6">
+  <form class="" action="/fetchUser" method="post">
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+
+<p>
+  <label for="email">Email</label>
+  <input class="form-control" name="email" type="text">
+</p>
+
+<p>
+  <label for="password">Password</label>
+  <input class="form-control" name="password" type="password">
+</p>
+
+    <button type="submit" class="btn btn-primary" name="button">Log In</button>
+  </form>
+
+<p>
+  <a href="/newUser">New User</a>
+</p>
+</div>
+</div>
+</div>
